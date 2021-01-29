@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Convolution of time series Pe and unit hydrograph h
+to produce outflow hydrograph
+28 January 2021
+"""
+
+import numpy as np
+
+Pe = [0, 10, 12, 3, 0, 5]
+length = len(Pe)
+h = np.pad([0.0, 0.5, 1.0, 1.3, 1.2, 0.8, 0.5, 0.2, 0.1, 0.0],\
+           (length-1,length-1), mode='constant', constant_values=(0,0))
+out = []
+
+i = 0
+while i < (len(Pe) + len(h) - 2*length + 1):
+    SIGMA = 0
+    for n in range(length):
+        SIGMA += Pe[n] * h[length - n + i - 1]
+    out.append(SIGMA)
+    i += 1
+
+print(out)
