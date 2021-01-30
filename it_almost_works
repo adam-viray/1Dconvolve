@@ -53,7 +53,7 @@ def main():
     for ax in axs:
         ax.label_outer()
     
-    anim = animation.FuncAnimation(fig, animate, interval=4000, fargs=(C, axs))
+    anim = animation.FuncAnimation(fig, animate, interval=500, fargs=(C, axs))
     plt.show()
 
 if __name__ == "__main__":
