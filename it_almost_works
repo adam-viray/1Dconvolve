@@ -3,7 +3,7 @@
 """
 Convolution of time series Pe and unit hydrograph h
 to produce outflow hydrograph
-30 January 2021
+31 January 2021
 """
 
 import numpy as np
@@ -37,9 +37,11 @@ def animate(f, C, axs):
     axs[0].bar(np.arange(len(C.h)), C.h, color='b')
     axs[1].bar(np.arange(len(C.kernel)), C.kernel, color='y')
     axs[2].bar(np.arange(len(C.out)), C.out, color='g')
+    axs[1].xaxis.grid(False)
+    axs[1].set_ylabel("Precipitation", fontsize=10)
+    axs[1].set_xticklabels([])
     if C.i > 14:
         anim.event_source.stop()
-    return axs,
 
 def main():
     global anim
@@ -48,12 +50,17 @@ def main():
     fig, axs = plt.subplots(nrows=3, sharex=True, gridspec_kw={'hspace': 0})
     fig.suptitle("1D convolution precipitation outflow")
     r1 = axs[0].bar(np.arange(len(C.h)), C.h, color='b')
-    r2 = axs[1].bar(np.arange(len(C.kernel)), C.kernel, color='y')
-    r3 = axs[2].bar(np.arange(len(C.out)), np.zeros(len(C.out)), color='g')
+    r2 = axs[1].bar(np.arange(len(C.h)), C.kernel, color='y')
+    r3 = axs[2].bar(np.arange(len(C.h)), np.zeros(len(C.out)), color='g')
+    axs[0].set_ylabel("Unit Hydrograph", fontsize=10)
+    axs[1].set_ylabel("Precipitation", fontsize=10)
+    axs[2].set_ylabel("Outflow", fontsize=10)
     for ax in axs:
         ax.label_outer()
+        ax.xaxis.grid(False)
+        ax.set_xticklabels([])
     
-    anim = animation.FuncAnimation(fig, animate, interval=500, fargs=(C, axs))
+    anim = animation.FuncAnimation(fig, animate, interval=300, fargs=(C, axs))
     plt.show()
 
 if __name__ == "__main__":
